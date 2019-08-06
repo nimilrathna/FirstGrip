@@ -6,4 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ReadActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_words"
+        android:layout_width="715dp"
+        android:layout_height="395dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/itemwords" />
 </androidx.constraintlayout.widget.ConstraintLayout>

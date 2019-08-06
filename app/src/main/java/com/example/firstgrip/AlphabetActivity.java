@@ -16,7 +16,7 @@ import android.widget.ImageButton;
 
 public class AlphabetActivity extends AppCompatActivity {
 
-    public static int alphabet_id=1;
+    Alphabet alphabet;
     private ImageButton button_content;
     MediaPlayer alphabet_sound;
     @Override
@@ -24,6 +24,7 @@ public class AlphabetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alphabet);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         IntialActions();
 
     }
@@ -43,14 +44,12 @@ public class AlphabetActivity extends AppCompatActivity {
         //Bundle bundle = getIntent().getExtras();
         //final String content_no=bundle.getString("CONTENT_NO");
         //if(content_no!= null) {
-        button_content = (ImageButton) findViewById(R.id.imagebutton_content);
-        StringBuffer imgname=new StringBuffer("@drawable/alph");
-        String imagename=imgname.append(Integer.toString(alphabet_id)).toString();
-        int changeReply=changeImage(imagename);
+        alphabet=new Alphabet(1);
 
-        StringBuffer audioname=new StringBuffer("@raw/alph");
-        audioname.append(Integer.toString(alphabet_id));
-        playAudio(audioname.toString());
+        button_content = (ImageButton) findViewById(R.id.imagebutton_content);
+
+        int changeReply=changeImage(alphabet.getImageUri());
+        playAudio(alphabet.getAudioUri());
 
 
 
@@ -61,24 +60,23 @@ public class AlphabetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                int alphabet_id=alphabet.getAlphabet_ID();
                 if(alphabet_id==1)
                     alphabet_id=26;
                 else
                     alphabet_id--;
-                StringBuffer imgname=new StringBuffer("@drawable/alph");
-                String imagename=imgname.append(Integer.toString(alphabet_id)).toString();
-                int changeReply=changeImage(imagename);
+                alphabet.setAlphabet_ID(alphabet_id);
+                int changeReply=changeImage(alphabet.getImageUri());
                 if(changeReply==0) {
                     if(alphabet_id==26)
                         alphabet_id=1;
                     else
                         alphabet_id++;
+                    alphabet.setAlphabet_ID(alphabet_id);
                 }
                 else
                 {
-                    StringBuffer audioname=new StringBuffer("@raw/alph");
-                    audioname.append(Integer.toString(alphabet_id));
-                    playAudio(audioname.toString());
+                    playAudio(alphabet.getAudioUri());
                 }
             }
         });
@@ -86,25 +84,24 @@ public class AlphabetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                int alphabet_id=alphabet.getAlphabet_ID();
                 if(alphabet_id==26)
                     alphabet_id=1;
                 else
                     alphabet_id++;
-                StringBuffer imgname=new StringBuffer("@drawable/alph");
-                String imagename=imgname.append(Integer.toString(alphabet_id)).toString();
-                int changeReply=changeImage(imagename);
+                alphabet.setAlphabet_ID(alphabet_id);
+                int changeReply=changeImage(alphabet.getImageUri());
                 if(changeReply==0)
                 {
                     if(alphabet_id==1)
                         alphabet_id=26;
                     else
                         alphabet_id--;
+                    alphabet.setAlphabet_ID(alphabet_id);
                 }
                 else
                 {
-                    StringBuffer audioname=new StringBuffer("@raw/alph");
-                    audioname.append(Integer.toString(alphabet_id));
-                    playAudio(audioname.toString());
+                    playAudio(alphabet.getAudioUri());
                 }
             }
         });
