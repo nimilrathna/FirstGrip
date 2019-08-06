@@ -28,7 +28,11 @@ public class AlphabetActivity extends AppCompatActivity {
         IntialActions();
 
     }
-
+@Override protected void onPause()
+{
+    stopAudio();
+    super.onPause();
+}
     private int changeImage(String imagename)
     {
         int imgres = getResources().getIdentifier(imagename, null, this.getPackageName());
@@ -76,6 +80,7 @@ public class AlphabetActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    stopAudio();
                     playAudio(alphabet.getAudioUri());
                 }
             }
@@ -101,6 +106,7 @@ public class AlphabetActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    stopAudio();
                     playAudio(alphabet.getAudioUri());
                 }
             }
@@ -112,5 +118,9 @@ public class AlphabetActivity extends AppCompatActivity {
         int audiores = getResources().getIdentifier(audioname, null, this.getPackageName());
         alphabet_sound=MediaPlayer.create(this,audiores);
         alphabet_sound.start();
+    }
+    private void stopAudio()
+    {
+        alphabet_sound.stop();
     }
 }
