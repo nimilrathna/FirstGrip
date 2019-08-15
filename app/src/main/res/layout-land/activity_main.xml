@@ -50,14 +50,16 @@
 
     <ImageView
         android:id="@+id/imageView_firstgriptitle"
-        android:layout_width="374dp"
-        android:layout_height="177dp"
+        android:layout_width="381dp"
+        android:layout_height="128dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/button_read"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/firstgriptitle" />
