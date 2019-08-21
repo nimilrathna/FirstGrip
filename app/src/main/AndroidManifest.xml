@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WriteActivity"></activity>
+        <activity android:name=".ReadWordActivity"></activity>
+        <activity android:name=".WriteActivity" />
         <activity android:name=".ReadActivity" />
         <activity android:name=".AlphabetActivity" />
         <activity android:name=".MainActivity">

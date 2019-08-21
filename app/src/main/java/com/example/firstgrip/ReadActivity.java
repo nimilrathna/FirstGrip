@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,36 +22,46 @@ import java.util.List;
 public class ReadActivity extends AppCompatActivity {
 
 //public static final String CONTENT_NO="com.example.firstgrip.CONTENT_NO";
+    DatabaseManager dbManager;
+    Cursor soundCursor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        getSupportActionBar().hide();
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         InitalizeDisplayContent();
 
     }
 
+    @Override
+    protected void onDestroy() {
+        dbManager.close();
+        super.onDestroy();
+    }
+
     private void InitalizeDisplayContent() {
+        ImageButton button_home=(ImageButton)findViewById(R.id.button_home);
+
+        button_home.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v)
+            {
+                Intent intent=new Intent(ReadActivity.this,MainActivity.class);
+                //intent.putExtra("CONTENT_NO","1");
+                startActivity(intent);
+            }
+        });
         final RecyclerView recyclerWords=(RecyclerView)findViewById(R.id.list_words);
         final LinearLayoutManager wordsLayoutManager=new LinearLayoutManager(this);
         recyclerWords.setLayoutManager(wordsLayoutManager);
-        //DatabaseManager dbManager=new DatabaseManager(this);
+        dbManager=new DatabaseManager(this);
         //SQLiteDatabase db=dbManager.getReadableDatabase();
-        //dbManager.close();
-        List<String> wordList=new ArrayList<String>();
-        wordList.add("At");
-        wordList.add("As");
-        wordList.add("An");
-        wordList.add("Cat");
-        wordList.add("Mat");
-        wordList.add("Rat");
-        wordList.add("Pen");
-        wordList.add("Pan");
-        wordList.add("Pin");
-        wordList.add("Eat");
-        final WordRecyclerAdapter wordRecyclerAdapter=new WordRecyclerAdapter(this,wordList);
-        recyclerWords.setAdapter(wordRecyclerAdapter);
+        soundCursor=dbManager.getSounds();
+        if(soundCursor.moveToFirst()) {
+            final WordRecyclerAdapter wordRecyclerAdapter = new WordRecyclerAdapter(this, soundCursor);
+            recyclerWords.setAdapter(wordRecyclerAdapter);
+        }
     }
 
 

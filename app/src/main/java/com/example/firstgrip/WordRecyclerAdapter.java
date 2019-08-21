@@ -1,6 +1,9 @@
 package com.example.firstgrip;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,28 +18,18 @@ import java.util.List;
 public class WordRecyclerAdapter extends RecyclerView.Adapter<WordRecyclerAdapter.ViewHolder>
 {
     private final Context mContext;
-    private final List<String> mWords;
+    Cursor msoundCursor;
     private final LayoutInflater layoutInflater;
 
-    public WordRecyclerAdapter(Context mConText,List<String> list) {
+    public WordRecyclerAdapter(Context mConText, Cursor soundCursor) {
         this.mContext = mConText;
-        this.mWords=list;
+        //this.mWords=wlist;
+        //this.maudios=alist;
+        this.msoundCursor=soundCursor;
         layoutInflater = LayoutInflater.from(mContext);
 
     }
-    public void initiateWordList()
-    {
-        this.mWords.add("At");
-        this.mWords.add("As");
-        this.mWords.add("An");
-        this.mWords.add("Cat");
-        this.mWords.add("Mat");
-        this.mWords.add("Rat");
-        this.mWords.add("Pen");
-        this.mWords.add("Pan");
-        this.mWords.add("Pin");
-        this.mWords.add("Eat");
-    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,23 +39,52 @@ public class WordRecyclerAdapter extends RecyclerView.Adapter<WordRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.text_word.setText(mWords.get(position));
+        if(msoundCursor.moveToPosition(position)) {
+            holder.text_word.setText(msoundCursor.getString(1));
+            holder.current_sound_id = msoundCursor.getInt(0);
+            holder.current_audio_ref = msoundCursor.getInt(2);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mWords.size();
+        return msoundCursor.getCount();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView text_word;
         private final ImageView image_audio;
-
+        int current_sound_id;
+        int current_audio_ref;
+        MediaPlayer word_sound;
 
         public ViewHolder(View itemView){
             super(itemView);
             text_word= (TextView)itemView.findViewById(R.id.text_word);
             image_audio = (ImageView) itemView.findViewById(R.id.image_audio);
+
+            text_word.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v)
+                {
+                    if(word_sound!=null)
+                        word_sound.stop();
+                    Intent intent=new Intent(mContext,ReadWordActivity.class);
+                    intent.putExtra("SOUND",current_sound_id);
+                    mContext.startActivity(intent);
+                }
+            });
+
+            image_audio.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v)
+                {
+                    if(current_audio_ref!=-1) {
+                        word_sound = MediaPlayer.create(mContext, current_audio_ref);
+                        word_sound.start();
+                    }
+                }
+            });
         }
     }
 }
