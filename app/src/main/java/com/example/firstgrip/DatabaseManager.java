@@ -253,7 +253,26 @@ catch (SQLException e)
             return null;
         }
     }
+    public Cursor getAllWords()
+    {
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("SELECT " + colWordID + " as _id,"
+                    + colWordName + ","
+                    + colWordImageRef + ","
+                    + colWordAudioRef +
+                    " from " + wordTable, new String[]{});
+              /*  "SELECT "+col+" as _id,
+                "+colDeptName+" from "+deptTable,new String [] {});*/
 
+            return cur;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
     private static int getResId(String resName, Class<?> c) {
 
         try {
