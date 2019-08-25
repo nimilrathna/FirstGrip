@@ -286,6 +286,7 @@ class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
                     alphabet_audio.start();
                 }
 
+
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
                 //ClipData.Item item = new ClipData.Item(v.getTag());
                 ClipData.Item item = new ClipData.Item(v.getTag().toString());
