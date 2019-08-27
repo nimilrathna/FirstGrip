@@ -39,7 +39,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public DatabaseManager(Context context) {
 
 
-        super(context, dbName, null,5);
+        super(context, dbName, null,22);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -82,101 +82,57 @@ public class DatabaseManager extends SQLiteOpenHelper {
         onCreate(db);
     }
     private void insertSounds(SQLiteDatabase db) {
-        ContentValues cv=new ContentValues();
+        ContentValues cv;
 
         //List<String> sounds=new ArrayList<String>();
+        String[] soundList={"at","ad","ar","aw","ay","ab","am","ag","ed"};
+        for(int i=0;i<soundList.length;i++) {
+            String sound=soundList[i];
+            cv=new ContentValues();
+            cv.put(colSoundID, i+1);
+            cv.put(colSoundName, sound);
+            cv.put(colsoundAudioRef, getResId(sound, R.raw.class));
+            db.insert(soundsTable, colSoundID, cv);
+        }
 
-        cv.put(colSoundID,1);
-        cv.put(colSoundName,"at");
-        cv.put(colsoundAudioRef,-1);
-        db.insert(soundsTable, colSoundID, cv);
-
-        cv.put(colSoundID,2);
-        cv.put(colSoundName,"ad");
-        cv.put(colsoundAudioRef,-1);
-        db.insert(soundsTable, colSoundID, cv);
-
-        cv.put(colSoundID,3);
-        cv.put(colSoundName,"aw");
-        cv.put(colsoundAudioRef,-1);
-        db.insert(soundsTable, colSoundID, cv);
-
-        cv.put(colSoundID,4);
-        cv.put(colSoundName,"ay");
-        cv.put(colsoundAudioRef,-1);
-        db.insert(soundsTable, colSoundID, cv);
-
-        cv.put(colSoundID,5);
-        cv.put(colSoundName,"ab");
-        cv.put(colsoundAudioRef,-1);
-        db.insert(soundsTable, colSoundID, cv);
-
-        cv.put(colSoundID,6);
-        cv.put(colSoundName,"am");
-        cv.put(colsoundAudioRef,-1);
-        db.insert(soundsTable, colSoundID, cv);
-
-        cv.put(colSoundID,7);
-        cv.put(colSoundName,"ag");
-        cv.put(colsoundAudioRef,-1);
-        db.insert(soundsTable, colSoundID, cv);
-
-        cv.put(colSoundID,8);
-        cv.put(colSoundName,"ed");
-        cv.put(colsoundAudioRef,-1);
-        db.insert(soundsTable, colSoundID, cv);
     }
 
     private void insertWords(SQLiteDatabase db) {
         //SQLiteDatabase db=this.getWritableDatabase();
-        ContentValues cv=new ContentValues();
-            cv.put(colWordID,1);
-            cv.put(colWordName,"cat");
-            cv.put(colWordImageRef,-1);
-            cv.put(colWordAudioRef,-1);
-            cv.put(colsound,1);
-            db.insert(wordTable, colWordID, cv);
+        String[] wordFamilyList1 = {"bat", "cat", "fat", "hat", "mat", "pat", "rat", "sat", "vat"};
+        String[] wordFamilyList2 = {"bad", "dad", "sad", "had", "mad"};
+        String[] wordFamilyList3 = {"car", "far", "jar"};
+        String[] wordFamilyList4 = {"jaw", "law", "maw", "paw", "raw", "saw"};
+        String[] wordFamilyList5 = {"bay", "day", "hay", "lay", "may", "pay", "ray", "say", "way"};
+        String[] wordFamilyList6 = {"cab", "lab", "tab", "jab"};
+        String[] wordFamilyList7 = {"dam", "ham", "jam", "yam"};
+        String[] wordFamilyList8 = {"bag", "rag", "lag", "nag", "tag", "wag"};
+        String[] wordFamilyList9 = {"bed", "fed", "led"};
 
-        cv=new ContentValues();
-        cv.put(colWordID,2);
-        cv.put(colWordName,"bat");
-        cv.put(colWordImageRef,-1);
-        cv.put(colWordAudioRef,-1);
-        cv.put(colsound,1);
-        db.insert(wordTable, colWordID, cv);
-
-        cv=new ContentValues();
-        cv.put(colWordID,3);
-        cv.put(colWordName,"mat");
-        cv.put(colWordImageRef,-1);
-        cv.put(colWordAudioRef,-1);
-        cv.put(colsound,1);
-        db.insert(wordTable, colWordID, cv);
-
-        cv.put(colWordID,4);
-        cv.put(colWordName,"bad");
-        cv.put(colWordImageRef,-1);
-        cv.put(colWordAudioRef,-1);
-        cv.put(colsound,2);
-        db.insert(wordTable, colWordID, cv);
-
-        cv=new ContentValues();
-        cv.put(colWordID,5);
-        cv.put(colWordName,"dad");
-        cv.put(colWordImageRef,-1);
-        cv.put(colWordAudioRef,-1);
-        cv.put(colsound,2);
-        db.insert(wordTable, colWordID, cv);
-
-        cv=new ContentValues();
-        cv.put(colWordID,6);
-        cv.put(colWordName,"sad");
-        cv.put(colWordImageRef,-1);
-        cv.put(colWordAudioRef,-1);
-        cv.put(colsound,2);
-        db.insert(wordTable, colWordID, cv);
+        List<String[]> wordList = new ArrayList<>();
+        wordList.add(wordFamilyList1);
+        wordList.add(wordFamilyList2);
+        wordList.add(wordFamilyList3);
+        wordList.add(wordFamilyList4);
+        wordList.add(wordFamilyList5);
+        wordList.add(wordFamilyList6);
+        wordList.add(wordFamilyList7);
+        wordList.add(wordFamilyList8);
+        wordList.add(wordFamilyList9);
+int id=1;
+        for (int i = 0; i < wordList.size(); i++) {
+            for (int j = 0; j < wordList.get(i).length; j++,id++) {
+                String word = wordList.get(i)[j];
+                ContentValues cv = new ContentValues();
+                cv.put(colWordID, id);
+                cv.put(colWordName, word);
+                cv.put(colWordImageRef, getResId(word, R.drawable.class));
+                cv.put(colWordAudioRef, getResId(word, R.raw.class));
+                cv.put(colsound, i + 1);
+                db.insert(wordTable, colWordID, cv);
+            }
+        }
     }
-
 
     public void insertAlphabets(SQLiteDatabase db)
     {
@@ -261,7 +217,7 @@ catch (SQLException e)
                     + colWordName + ","
                     + colWordImageRef + ","
                     + colWordAudioRef +
-                    " from " + wordTable, new String[]{});
+                    " from " + wordTable+" ORDER BY RANDOM() LIMIT 50", new String[]{});
               /*  "SELECT "+col+" as _id,
                 "+colDeptName+" from "+deptTable,new String [] {});*/
 
